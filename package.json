@@ -1,0 +1,60 @@
+{
+  "name": "TypeScriptRestAPI",
+  "version": "1.0.0",
+  "description": "Nodejs REST API with Typescript",
+  "scripts": {
+    "start": "node dist/app.js",
+    "dev": "nodemon --watch './src/**/*.ts' --exec 'ts-node' ./src/app.ts",
+    "build": "tsc -p ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ErickEspinozaT/TypeScriptRestAPI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ErickEspinozaT/TypeScriptRestAPI/issues"
+  },
+  "homepage": "https://github.com/ErickEspinozaT/TypeScriptRestAPI#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.11",
+    "@types/node": "^14.14.22",
+    "nodemon": "^2.0.7",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3",
+    "@types/body-parser": "^1.19.0",
+    "@types/cors": "^2.8.8",
+    "@types/ip": "^1.1.0",
+    "@types/morgan": "^1.9.2"
+  },
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.6.1",
+    "@typescript-eslint/parser": "^4.6.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.18.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-import-resolver-typescript": "^2.3.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^5.0.0",
+    "express": "^4.17.1",
+    "import-sort-style-module": "^6.0.0",
+    "ip": "^1.1.5",
+    "morgan": "^1.10.0",
+    "prettier": "^2.1.2",
+    "prettier-plugin-import-sort": "0.0.6"
+  },
+  "importSort": {
+    ".js, .jsx, .ts, .tsx": {
+      "parser": "typescript",
+      "style": "module"
+    }
+  }
+}
