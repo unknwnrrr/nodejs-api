@@ -1,7 +1,7 @@
 FROM node:14.15.1
-MAINTAINER eespinoza@telconet.ec
+MAINTAINER erickespinozat@hotmail.com
 
-RUN apt-get update && apt-get install -y wget gnupg telnet vim nano 
+RUN apt-get update && apt-get install -y wget telnet vim nano 
 
 WORKDIR /home/node/app
 
