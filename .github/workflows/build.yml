@@ -1,8 +1,7 @@
 name: Build
 on:
   push:
-    branches:
-      [test, cicd] # or the name of your main branch
+    branches: [test, cicd] # or the name of your main branch
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
@@ -31,22 +30,22 @@ jobs:
           registry: docker.io
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-on:
-  workflow_dispatch:
-    inputs:
-      name:
-        description: 'Person to greet'
-        required: true
-        default: 'Mona the Octocat'
-      home:
-        description: 'location'
-        required: false
-        default: 'The Octoverse'
+# on:
+#   workflow_dispatch:
+#     inputs:
+#       name:
+#         description: 'Person to greet'
+#         required: true
+#         default: 'Mona the Octocat'
+#       home:
+#         description: 'location'
+#         required: false
+#         default: 'The Octoverse'
 
-jobs:
-  say_hello:
-    runs-on: ubuntu-latest
-    steps:
-      - run: |
-          echo "Hello ${{ github.event.inputs.name }}!"
-          echo "- in ${{ github.event.inputs.home }}!"
+# jobs:
+#   say_hello:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - run: |
+#           echo "Hello ${{ github.event.inputs.name }}!"
+#           echo "- in ${{ github.event.inputs.home }}!"
