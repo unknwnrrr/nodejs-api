@@ -1,7 +1,7 @@
 name: Build
 on:
   push:
-    branches: [test, cicd] # or the name of your main branch
+    branches: [master, test, cicd] # or the name of your main branch
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [14.x]
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
@@ -30,19 +30,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: npm run build
-  docker-image:
-    name: Building Docker Image
-    needs: [sonar, build-dev]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Build and Push Docker Image of branche
-        uses: mr-smithers-excellent/docker-build-push@v4
-        with:
-          image: erickespinozat/nodejs-api
-          registry: docker.io
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
 # on:
 #   workflow_dispatch:
 #     inputs:
