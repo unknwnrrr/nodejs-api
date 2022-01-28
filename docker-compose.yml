@@ -2,8 +2,22 @@ version: "3.5"
 
 services:
   nodejs-server:
+    networks:
+      - webgateway-nodejs
     image: erickespinozat/nodejs-api:latest
     container_name: nodejs-api
     restart: unless-stopped
     ports:
       - "3000:3000"
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nodejs-api.rule=Host(`unknwnrrr.dev/nodejs`)"
+      - "traefik.http.routers.nodejs-api.entrypoints=websecure"
+      - "traefik.http.services.nodejs-api.loadbalancer.server.port=3000"
+      - "traefik.http.routers.nodejs-api.service=nodejs-api"
+      - "traefik.http.routers.nodejs-api.tls.certresolver=leresolver"
+networks:
+  webgateway-nodejs:
+    external:
+     name: webgateway_network
