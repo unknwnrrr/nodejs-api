@@ -7,16 +7,13 @@ services:
     image: erickespinozat/nodejs-api:latest
     container_name: nodejs-api
     restart: unless-stopped
-    ports:
-      - "3000:3000"
-
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.showcase.rule=Host(`nodejs.unknwnrrr.dev`)"
-      - "traefik.http.routers.nodejs-api.entrypoints=websecure"
-      - "traefik.http.services.nodejs-api.loadbalancer.server.port=3000"
-      - "traefik.http.routers.nodejs-api.service=nodejs-api"
-      - "traefik.http.routers.nodejs-api.tls.certresolver=leresolver"
+      - "traefik.http.routers.nodejs.rule=Host(`nodejs.unknwnrrr.dev`)"
+      - "traefik.http.routers.nodejs.entrypoints=websecure"
+      - "traefik.http.services.nodejs.loadbalancer.server.port=3000"
+      - "traefik.http.routers.nodejs.service=nodejs"
+      - "traefik.http.routers.nodejs.tls.certresolver=leresolver"
 networks:
   webgateway-nodejs:
     external:
