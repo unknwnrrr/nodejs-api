@@ -1,21 +1,27 @@
-FROM node:14.15.1
-MAINTAINER erickespinozat@hotmail.com
+FROM node:10-alpine
 
-RUN apt-get update && apt-get install -y wget telnet vim nano 
+RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 
 WORKDIR /home/node/app
 
-COPY package.json ./
+COPY package*.json ./
 
-COPY tsconfig.json ./
+RUN npm install -g pm2 typescript
+USER node
 
 RUN npm install
-RUN npm install -g pm2 typescript
-RUN npm run build
 
-COPY ./dist .
+COPY --chown=node:node . .
+RUN npm run build
 
 EXPOSE 3000
 
-USER node
 CMD ["pm2-runtime", "dist/src/index.js"]
+
+# RUN npm install
+
+# COPY ./dist .
+
+# EXPOSE 3000
+
+# USER node
