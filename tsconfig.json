@@ -1,11 +1,9 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/src" /* Redirect output structure to the directory. */,
     "sourceMap": true /* Generates corresponding '.map' file. */,
     "declaration": false /* Generates corresponding '.d.ts' file. */,
     "target": "ES2015" /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */,
     "module": "commonjs" /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */,
-    "rootDir": "./src" /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */,
     "strict": false /* Enable all strict type-checking options. */,
     "noUnusedLocals": false /* Report errors on unused locals. */,
     "noImplicitReturns": false /* Report error when not all code paths in function return a value. */,
@@ -18,8 +16,5 @@
     "emitDecoratorMetadata": true /* Enables experimental support for emitting type metadata for decorators. */,
     "forceConsistentCasingInFileNames": false /* Disallow inconsistently-cased references to the same file. */,
     "allowJs": true,
-  },
-  "include": [
-    "./src"
-  ]
+  }
 }
