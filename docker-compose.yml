@@ -1,24 +1,11 @@
-version: "3.1"
+version: "3.5"
 
 services:
-  easyrtc-server:
-    image: rtc-consulti:3
-    container_name: bisel-rtc
+  nodejs-server:
+    image: erickespinozat/nodejs-api:latest
+    container_name: nodejs-api
     restart: unless-stopped
-    env_file: .env
-    environment:
-      DB_USER: bisel
-      DB_NAME: bisel
-      DB_PASS: postgres
-      DB_HOST: 'consulti.convini.ec'
-      DB_PORT: 5432
-      URL_CERT: './certificates/privkey.pem'
-      URL_KEY: './certificates/cert.pem'
     ports:
       - "3000:3000"
-    volumes:
-      - ./certificates:/home/certificates/
-      - ./docs:/home/node/app/docs
-
 networks:
   - app-network
