@@ -26,7 +26,7 @@ jobs:
             registry: docker.io
             username: ${{ secrets.DOCKER_USERNAME }}
             password: ${{ secrets.DOCKER_PASSWORD }}
-            tags: ${{ needs.tag-release.outputs }}, latest
+            tags: refs/tags/1.2.0, latest
             # tags: 'refs/tags/${{ needs.tag-release.outputs.tag }}'
   deploy:
     runs-on: ubuntu-latest
