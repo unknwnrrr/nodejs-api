@@ -1,7 +1,7 @@
 name: Build
 on:
   push:
-    branches: [master, test, cicd] # or the name of your main branch
+    branches: [master, cicd] # or the name of your main branch
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
