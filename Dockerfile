@@ -16,7 +16,7 @@ RUN npm run build
 
 EXPOSE 3000
 
-CMD ["pm2-runtime", "dist/src/index.js"]
+CMD ["pm2-runtime", "dist/src/app.js"]
 
 # RUN npm install
 

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Nodejs REST API with Typescript",
   "scripts": {
-    "start": "node dist/app.js",
+    "start": "node dist/src/app.js",
     "dev": "nodemon --watch './src/**/*.ts' --exec 'ts-node' ./src/app.ts",
     "build": "tsc -p ."
   },
