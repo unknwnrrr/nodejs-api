@@ -12,7 +12,7 @@ services:
 
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.nodejs-api.rule=Host(`unknwnrrr.dev/nodejs`)"
+      - "traefik.http.routers.nodejs-api.rule=Host(`unknwnrrr.dev`) && PathPrefix(`/nodejs`)"
       - "traefik.http.routers.nodejs-api.entrypoints=websecure"
       - "traefik.http.services.nodejs-api.loadbalancer.server.port=3000"
       - "traefik.http.routers.nodejs-api.service=nodejs-api"
