@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [16.x]
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
@@ -30,9 +30,38 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: npm run build
+      - uses: actions/checkout@master
+      - name: Read current version
+        id: read_property
+        uses: christian-draeger/read-properties@1.0.0
+        with:
+          path: './WorkflowEngine/VERSION'
+          property: 'version'
+          token: ${{ secrets.GITHUB_TOKEN }}        
+      - name: Current version
+        run: echo ${{ steps.read_property.outputs.value }}
+      - name: Bump release version
+        id: bump_version
+        uses: christian-draeger/increment-semantic-version@1.0.0
+        with:
+          current-version: ${{ steps.read_property.outputs.value }}
+          version-fragment: 'bug'
+      - name: New version
+        run: echo ${{ steps.bump_version.outputs.next-version }}
+      - name: Remove existing version file
+        uses: JesseTG/rm@v1.0.0
+        with:
+          path: './WorkflowEngine/VERSION'
+      - name: Write new version
+        uses: christian-draeger/write-properties@1.0.0
+        with:
+          path: './WorkflowEngine/VERSION'
+          property: 'version'
+          value: ${{ steps.bump_version.outputs.next-version }}
+
   docker-image-test:
       name: Building Docker Image
-      needs: [sonar, build-dev]
+      # needs: [sonar, build-dev]
       runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@v1

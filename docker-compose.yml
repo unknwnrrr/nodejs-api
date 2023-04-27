@@ -1,9 +1,11 @@
 version: "3.1"
 services:
   proxy:
-    build: 
-      context: ./nginx
-      dockerfile: ./Dockerfile
+    # en caso de hacer cambios al load balancer, volver a generar la imagen docker y comentar la linea 8
+    # build: 
+    #   context: ./nginx
+    #   dockerfile: ./Dockerfile
+    image: erickespinozat/nginx-load-balancer:1.0
     ports:
       - "80:80"
     networks:
