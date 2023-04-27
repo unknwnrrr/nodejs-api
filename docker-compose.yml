@@ -1,24 +1,33 @@
 version: "3.1"
-
 services:
-  easyrtc-server:
-    image: rtc-consulti:3
-    container_name: bisel-rtc
+  proxy:
+    build: 
+      context: ./nginx
+      dockerfile: ./Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      - load-balancer-network  
+    
+  microservice-devops-1:
+    image: erickespinozat/nodejs-api:test-6bbe668
+    container_name: microservice-devops-1
+    # hostname: microservice-devops-1
     restart: unless-stopped
-    env_file: .env
-    environment:
-      DB_USER: bisel
-      DB_NAME: bisel
-      DB_PASS: postgres
-      DB_HOST: 'consulti.convini.ec'
-      DB_PORT: 5432
-      URL_CERT: './certificates/privkey.pem'
-      URL_KEY: './certificates/cert.pem'
     ports:
       - "3000:3000"
-    volumes:
-      - ./certificates:/home/certificates/
-      - ./docs:/home/node/app/docs
-
+    networks:
+      - load-balancer-network
+      
+  microservice-devops-2:
+    image: erickespinozat/nodejs-api:test-6bbe668
+    # hostname: microservice-devops-2
+    container_name: microservice-devops-2
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    networks:
+      - load-balancer-network
 networks:
-  - app-network
+  load-balancer-network:
+    name: load-balancer-network

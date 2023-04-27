@@ -17,11 +17,3 @@ RUN npm run build
 EXPOSE 3000
 
 CMD ["pm2-runtime", "dist/src/index.js"]
-
-# RUN npm install
-
-# COPY ./dist .
-
-# EXPOSE 3000
-
-# USER node
