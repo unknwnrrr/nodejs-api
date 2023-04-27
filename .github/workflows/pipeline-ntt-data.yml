@@ -1,27 +1,15 @@
-name: Build
+name: NTT Data Pipeline CICD
 on:
   push:
     branches: [master, test, cicd] # or the name of your main branch
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
-  sonar:
-    name: Sonarqube Quality
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: docker://sonarsource/sonar-scanner-cli:latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
   build-dev:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [14.x]
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
@@ -58,8 +46,20 @@ jobs:
           path: './WorkflowEngine/VERSION'
           property: 'version'
           value: ${{ steps.bump_version.outputs.next-version }}
-
-  docker-image-test:
+  sonar:
+    name: Sonarqube Quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: docker://sonarsource/sonar-scanner-cli:latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+  
+  build-docker-image:
       name: Building Docker Image
       # needs: [sonar, build-dev]
       runs-on: ubuntu-latest
