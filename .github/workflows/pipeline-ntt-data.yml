@@ -5,11 +5,13 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
-  build-dev:
+  build-stage:
+    name: Build and install dependency
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [12.x,14.x, 16.x]
+        os: [ubuntu-latest, windows-latest]
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
@@ -18,12 +20,17 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: npm run build
-      - uses: actions/checkout@master
+  add-version-stage:
+    name: Add versioning tag
+    needs: [build-stage] 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
       - name: Read current version
         id: read_property
         uses: christian-draeger/read-properties@1.0.0
         with:
-          path: './WorkflowEngine/VERSION'
+          path: './VERSION'
           property: 'version'
           token: ${{ secrets.GITHUB_TOKEN }}        
       - name: Current version
@@ -45,9 +52,10 @@ jobs:
         with:
           path: './WorkflowEngine/VERSION'
           property: 'version'
-          value: ${{ steps.bump_version.outputs.next-version }}
-  sonar:
+          value: ${{ steps.bump_version.outputs.next-version }}    
+  sonarqube-analysis:
     name: Sonarqube Quality
+    needs: [add-version-stage]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -58,10 +66,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-  
-  build-docker-image:
+  build-and-push-docker-image:
       name: Building Docker Image
-      # needs: [sonar, build-dev]
+      needs: [sonarqube-analysis]
       runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@v1
