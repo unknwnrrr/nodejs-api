@@ -16,7 +16,6 @@ export class Server {
   private _init(): void {
     this._app.use(cors());
     this._app.use(bodyParser.json());
-    // this._app.use('/DevOps', new Routes().router);
     this._app.get('/check', (req: Request, res: Response) => {
       res.status(ApiCodesEnum.Success).send({
         success: 'true',
