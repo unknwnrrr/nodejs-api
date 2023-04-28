@@ -26,10 +26,10 @@ export class Server {
 
     this._app.post('/DevOps', (req: Request, res: Response) => {
       try {
-        const { to }: {to: string} = req.body
+        const { to }: { to: string } = req.body;
         const reciever: string = to;
-        if(empty(reciever)){
-          throw new Error(`El campo TO es inávalido`)
+        if (empty(reciever)) {
+          throw new Error(`El campo TO es inávalido`);
         }
         res.send({ message: `Hello ${reciever} your message will be send` });
       } catch (error) {
@@ -39,23 +39,23 @@ export class Server {
     });
     this._app.get('/DevOps', (req: Request, res: Response) => {
       try {
-        throw new Error(`ERROR`)
+        throw new Error(`ERROR`);
       } catch (error) {
         console.error(error);
-        res.status(500).json( error.message);
+        res.status(500).json(error.message);
       }
     });
     this._app.put('/DevOps', (req: Request, res: Response) => {
       try {
-        throw new Error(`ERROR`)
+        throw new Error(`ERROR`);
       } catch (error) {
         console.error(error);
-        res.status(500).json( error.message);
+        res.status(500).json(error.message);
       }
     });
     this._app.delete('/DevOps', (req: Request, res: Response) => {
       try {
-        throw new Error(`ERROR`)
+        throw new Error(`ERROR`);
       } catch (error) {
         console.error(error);
         res.status(500).json(error.message);

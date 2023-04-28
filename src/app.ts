@@ -8,4 +8,3 @@ server.listen((port) => {
   console.log(`Server is listening on https://${ip.address()}:${port}`)
 })
 
-server._app.get
