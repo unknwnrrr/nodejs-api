@@ -21,6 +21,7 @@ jobs:
       - run: npm install
       - run: npm run build
   automatic-test-stage:
+    needs: [build-stage]
     name: Automatic Testing 
     runs-on: ubuntu-latest
     strategy:
@@ -34,10 +35,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
-      - run: npm test
+      - run: npm run test
   sonarqube-analysis:
     name: Sonarqube Quality
-    needs: [build-stage]
+    needs: [automatic-test-stage]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
