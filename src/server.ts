@@ -3,11 +3,11 @@ import cors from 'cors';
 import express, { Application, Request, Response } from 'express';
 
 import { ApiCodesEnum } from './enums/api.enum';
-import { Routes } from './routes';
+import { empty } from './utils/validators'
 
 export class Server {
   private readonly _API_PORT: number = 3000;
-  private _app: Application = express();
+  public _app: Application = express();
 
   constructor() {
     this._init();
@@ -16,12 +16,50 @@ export class Server {
   private _init(): void {
     this._app.use(cors());
     this._app.use(bodyParser.json());
-    this._app.use('/api', new Routes().router);
+    // this._app.use('/DevOps', new Routes().router);
     this._app.get('/check', (req: Request, res: Response) => {
       res.status(ApiCodesEnum.Success).send({
         success: 'true',
         message: 'NodeJs Backend up!',
       });
+    });
+
+    this._app.post('/DevOps', (req: Request, res: Response) => {
+      try {
+        const { to }: {to: string} = req.body
+        const reciever: string = to;
+        if(empty(reciever)){
+          throw new Error(`El campo TO es inávalido`)
+        }
+        res.send({ message: `Hello ${reciever} your message will be send` });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+      }
+    });
+    this._app.get('/DevOps', (req: Request, res: Response) => {
+      try {
+        throw new Error(`ERROR`)
+      } catch (error) {
+        console.error(error);
+        res.status(500).json( error.message);
+      }
+    });
+    this._app.put('/DevOps', (req: Request, res: Response) => {
+      try {
+        throw new Error(`ERROR`)
+      } catch (error) {
+        console.error(error);
+        res.status(500).json( error.message);
+      }
+    });
+    this._app.delete('/DevOps', (req: Request, res: Response) => {
+      try {
+        throw new Error(`ERROR`)
+      } catch (error) {
+        console.error(error);
+        res.status(500).json(error.message);
+      }
     });
   }
 

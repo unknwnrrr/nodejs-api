@@ -11,6 +11,6 @@ export class Routes {
   }
 
   setRoutes() {
-    this.router.use('/userTesting', new UserRoutes().router);
+    this.router.use('/', new UserRoutes().router);
   }
 }

@@ -20,50 +20,31 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: npm run build
-  add-version-stage:
-    name: Add versioning tag
-    needs: [build-stage] 
+  automatic-test-stage:
+    name: Automatic Testing 
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x,14.x, 16.x]
+        os: [ubuntu-latest, windows-latest]
     steps:
       - uses: actions/checkout@v2
-      - name: Read current version
-        id: read_property
-        uses: christian-draeger/read-properties@1.0.0
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
         with:
-          path: './VERSION'
-          property: 'version'
-          token: ${{ secrets.GITHUB_TOKEN }}        
-      - name: Current version
-        run: echo ${{ steps.read_property.outputs.value }}
-      - name: Bump release version
-        id: bump_version
-        uses: christian-draeger/increment-semantic-version@1.0.0
-        with:
-          current-version: ${{ steps.read_property.outputs.value }}
-          version-fragment: 'bug'
-      - name: New version
-        run: echo ${{ steps.bump_version.outputs.next-version }}
-      - name: Remove existing version file
-        uses: JesseTG/rm@v1.0.0
-        with:
-          path: './WorkflowEngine/VERSION'
-      - name: Write new version
-        uses: christian-draeger/write-properties@1.0.0
-        with:
-          path: './WorkflowEngine/VERSION'
-          property: 'version'
-          value: ${{ steps.bump_version.outputs.next-version }}    
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+      - run: npm test
   sonarqube-analysis:
     name: Sonarqube Quality
-    needs: [add-version-stage]
+    needs: [build-stage]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0
-      - uses: docker://sonarsource/sonar-scanner-cli:latest
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - uses: sonarsource/sonarqube-scan-action@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
   build-and-push-docker-image:
